@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('/todo', 'TodoController');
+Route::get('/todo/{todo}/delete', 'TodoController@delete')->name('todo.delete');

@@ -7,92 +7,97 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" >
+        <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" >
+       
 
         <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
+       @if (session()->has('message'))
+            <div class="alert alert-primary">
+                {{session('message')}}
+            </div>
+       @endif
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
+        <div class="container-fluid">
+            <div class="col-lg-12">
+                <div class="content">
+                <h1><u>Todo List</u></h1>
+                <button class="btn btn-sm btn-primary ajax-modal" data-url="{{ route('todo.create') }}" data-title="Add Todo">Add</button>
+                
+                <div class="content">
+                    <table class="table">
+                        <thead>
+                            <th width="5%">ID</th>
+                            <th width="30%">Name</th>
+                            <th width="50%">Description</th>
+                            <th>Actions</th>
+                        </thead>
+                        <tbody id="todo-list">
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
+                            @foreach ($todos as $todo)
+                            <tr>
+                            <td>{{$todo->id}}</td>
+                            <td>{{$todo->name}}</td>
+                            <td>{{$todo->description}}</td>
+                            <td>
+                                {{-- <a href = "{{ route('todo.edit', $todo->id) }}">Edit</a> --}}
+                                <button class="btn btn-info btn-sm ajax-modal"
+                                data-url="{{ route('todo.edit', $todo->id) }}"
+                                data-title="Edit Todo">Edit</button>
+                                
+                                <button class="btn btn-sm btn-danger ajax-modal" 
+                                data-url="{{ route('todo.delete', $todo->id) }}"
+                                data-title="Delete">Delete</button>
+                            </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    
                 </div>
-            @endif
+               
+            </div>
+            </div>
+        </div>
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+        <!-- Modal -->
+        <div class="modal fade ajax-form-model" >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" >Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                 {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+              </div>
+            </div>
+          </div>
+        </div>      
+        
+        <div class="ajax-success">
+             <div class="card alert-success">
+                <div class="card-body ajax-success-text text-center">
+                   Success
                 </div>
             </div>
         </div>
+       
+        <style type="text/css">
+            .ajax-success{
+                width:20%;
+                position: absolute;
+                top: 2%;
+                right: 20px; 
+                display: none;
+            }
+        </style>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.js"></script>
+        <script src="{{ url('js/script.js') }}" type="text/javascript"></script>
     </body>
 </html>
