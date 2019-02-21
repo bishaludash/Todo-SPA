@@ -13,3 +13,9 @@
 
 Route::resource('/todo', 'TodoController');
 Route::get('/todo/{todo}/delete', 'TodoController@delete')->name('todo.delete');
+
+
+Route::resource('survey', 'SurveyController');
+Route::resource('survey.questions', 'SurveyQuestionsController');
+Route::resource('questions.options', 'QuestionOptionsController');
+

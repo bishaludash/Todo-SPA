@@ -10,6 +10,16 @@ $(function(){
   	});
 
 
+    // Large Modal Load
+    $(document).on('click', '.ajax-modal-lg', function(){
+     var url = $(this).attr('data-url');
+      var title = $(this).attr('data-title');
+      $('.ajax-form-model-lg').modal();
+      $('.ajax-form-model-lg .modal-title').text(title);
+      $('.ajax-form-model-lg .modal-body').load(url);
+    });
+
+
     // POST form
   	$(document).on('submit', '.ajax-form-post', function(e){
   		e.preventDefault();
@@ -64,8 +74,10 @@ $(function(){
 
         success : function(data){
           console.log(data);
-          $('#todo-list').load(location.href + ' #todo-list tr');
-          $('.ajax-form-model').modal('toggle');
+          window.location.href = response.return_url;
+          // $('#todo-list').load(location.href + ' #todo-list tr');
+          
+          // $('.ajax-form-model').modal('toggle');
 
          // message
           $('.ajax-success-text').text(data.message);
@@ -76,5 +88,9 @@ $(function(){
   	});
 
 
+    // clone options
+    $('#type').on('click', function(){
+        $('.form-options .form-group').clone().appendTo('.options-field').show();
+      });
   	
 });
